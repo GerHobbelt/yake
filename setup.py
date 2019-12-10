@@ -17,7 +17,7 @@ requirements = [
     "jellyfish"]
 
 setup_requirements = [
-    'pytest-runner'    
+    'pytest-runner'
 ]
 
 test_requirements = [
@@ -27,10 +27,10 @@ test_requirements = [
 
 setup(
     name='yake',
-    version='0.4.2',
+    version='0.4.4',
     description="Keyword extraction Python package",
     long_description=readme,
-    
+
     url='https://pypi.python.org/pypi/yake',
     packages=find_packages(include=['yake','StopwordsList']),
     entry_points={
@@ -45,7 +45,7 @@ setup(
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-    
+
         'Natural Language :: English',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
