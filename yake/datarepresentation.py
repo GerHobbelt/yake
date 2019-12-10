@@ -12,8 +12,8 @@ import re
 STOPWORD_WEIGHT = 'bi'
 
 class DataCore(object):
-    
-    def __init__(self, text, stopword_set, windowsSize, n, tagsToDiscard = set(['u', 'd']), exclude = set(string.punctuation)):
+
+    def __init__(self, text, stopword_set, windowsSize, n, tagsToDiscard = set(['']), exclude = set(string.punctuation)):
         self.number_of_sentences = 0
         self.number_of_words = 0
         self.terms = {}
@@ -70,7 +70,7 @@ class DataCore(object):
                     if tag not in self.tagsToDiscard:
                         word_windows = list(range( max(0, len(block_of_word_obj)-windowsSize), len(block_of_word_obj) ))
                         for w in word_windows:
-                            if block_of_word_obj[w][0] not in self.tagsToDiscard: 
+                            if block_of_word_obj[w][0] not in self.tagsToDiscard:
                                 self.addCooccur(block_of_word_obj[w][2], term_obj)
                     #Generate candidate keyphrase list
                     candidate = [ (tag, word, term_obj) ]
@@ -146,14 +146,14 @@ class DataCore(object):
 
         if unique_term in self.terms:
             return self.terms[unique_term]
-                
+
         # Include this part
         simples_unique_term = unique_term
         for pontuation in self.exclude:
             simples_unique_term = simples_unique_term.replace(pontuation, '')
         # until here
         isstopword = simples_sto or unique_term in self.stopword_set or len(simples_unique_term) < 3
-        
+
         term_id = len(self.terms)
         term_obj = single_word(unique_term, term_id, self.G)
         term_obj.stopword = isstopword
@@ -168,7 +168,7 @@ class DataCore(object):
         if right_term.id not in self.G[left_term.id]:
             self.G.add_edge(left_term.id, right_term.id, TF=0.)
         self.G[left_term.id][right_term.id]["TF"]+=1.
-        
+
     def addOrUpdateComposedWord(self, cand):
         if cand.unique_kw not in self.candidates:
             self.candidates[cand.unique_kw] = cand
@@ -364,18 +364,18 @@ class single_word(object):
 
         if features == None or "WFreq" in features:
             self.WFreq = self.tf / (avgTF + stdTF)
-        
+
         if features == None or "WSpread" in features:
             self.WSpread = len(self.occurs) / number_of_sentences
-        
+
         if features == None or "WCase" in features:
             self.WCase = max(self.tf_a, self.tf_n) / (1. + math.log(self.tf))
-        
+
         if features == None or "WPos" in features:
             self.WPos = math.log( math.log( 3. + np.median(list(self.occurs.keys())) ) )
 
         self.H = (self.WPos * self.WRel) / (self.WCase + (self.WFreq / self.WRel) + (self.WSpread / self.WRel))
-        
+
     @property
     def WDR(self):
         return len( self.G.out_edges(self.id) )
@@ -389,8 +389,8 @@ class single_word(object):
         wir = self.WIR
         if wir == 0:
             return 0
-        return self.WDR / wir 
-    
+        return self.WDR / wir
+
     @property
     def WDL(self):
         return len( self.G.in_edges(self.id) )
@@ -404,7 +404,7 @@ class single_word(object):
         wil = self.WIL
         if wil == 0:
             return 0
-        return self.WDL / wil 
+        return self.WDL / wil
 
     def addOccur(self, tag, sent_id, pos_sent, pos_text):
         if sent_id not in self.occurs:
