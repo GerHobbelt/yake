@@ -197,10 +197,9 @@ class composed_word(object):
             self.tags.add( tag )
 
     def isValid(self):
-        isValid = False
+        isValid = True
         for tag in self.tags:
-            # isValid = isValid or ( "u" not in tag and "d" not in tag )
-            isValid = isValid
+            isValid = isValid or ( "u" not in tag and "d" not in tag )
         return isValid and not self.start_or_end_stopwords
 
     def get_composed_feature(self, feature_name, discart_stopword=True):
