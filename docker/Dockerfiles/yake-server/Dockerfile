@@ -1,12 +1,11 @@
-FROM library/python:3.7.1-alpine
+FROM python:3.9
 
 # change to temp dir
 WORKDIR /temp
 
-# install git and build-base (GCC, etc.)
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh && \
-    apk add build-base
+# upgrades
+RUN apt update -y  && apt upgrade -y
+RUN pip install --upgrade pip
 
 RUN pip install flasgger
 
